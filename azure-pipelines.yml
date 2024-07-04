@@ -1,0 +1,19 @@
+trigger:
+- main  # Replace with your branch name
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.x'
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: '<Your Azure Service Connection>'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az deployment group create --resource-group <YourResourceGroup> --template-file azuredeploy.bicep
